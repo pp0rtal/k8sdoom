@@ -14,7 +14,9 @@ export const TEX_HEIGHT = 64;
 export const PLAYER_MOVE_SPEED = 3.0;
 export const PLAYER_ROT_SPEED = 2.0;
 export const PLAYER_RADIUS = 0.25;
-export const PLAYER_MAX_HEALTH = 100;
+export const MAX_GAME_DURATION = 60;           // seconds
+export const PLAYER_MAX_HEALTH = 100;          // always starts full at 100%
+export const HEALTH_DRAIN_RATE = PLAYER_MAX_HEALTH / MAX_GAME_DURATION; // HP/s so health hits 0 at MAX_GAME_DURATION
 
 // Enemies
 export const ENEMY_SPEED = -0.5;

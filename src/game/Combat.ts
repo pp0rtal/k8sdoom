@@ -105,9 +105,9 @@ export class Combat {
     if (this.killFeedbackTimer > 0) {
       const alpha = Math.min(1, this.killFeedbackTimer);
       ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-      ctx.font = 'bold 14px monospace';
+      ctx.font = 'bold 24px monospace';
       ctx.textAlign = 'center';
-      ctx.fillText(this.lastKillLabel, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50);
+      ctx.fillText("💀 " + this.lastKillLabel + " 💀", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50);
     }
 
     // Damage vignette

@@ -15,7 +15,7 @@ import { HUD } from './ui/HUD';
 import { MenuScreen } from './ui/MenuScreen';
 import { PostProcessing } from './ui/PostProcessing';
 import { SoundManager } from './audio/SoundManager';
-import { SCREEN_WIDTH, SCREEN_HEIGHT, FIXED_DT } from './constants';
+import { SCREEN_WIDTH, SCREEN_HEIGHT, FIXED_DT, HEALTH_DRAIN_RATE, MAX_GAME_DURATION } from './constants';
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
 canvas.width = SCREEN_WIDTH;
@@ -44,13 +44,11 @@ let spawnManager: SpawnManager;
 let combat: Combat;
 let weapon: Weapon;
 let showMinimap = true;
-let lastPlayerHealth = 0;
 
 function startGame(): void {
   world = new World();
   const spawn = world.findPlayerStart();
   player = new Player(spawn);
-  lastPlayerHealth = player.health;
   spawnManager = new SpawnManager(world);
   combat = new Combat();
   weapon = new Weapon();
@@ -59,7 +57,7 @@ function startGame(): void {
 }
 
 canvas.addEventListener('click', () => {
-  if (gameState.phase === 'menu' || gameState.phase === 'gameover') {
+  if (gameState.phase === 'menu' || gameState.phase === 'gameover' || gameState.phase === 'won') {
     startGame();
   }
 });
@@ -98,15 +96,20 @@ function update(dt: number): void {
     }
   }
 
-  // Check if player took damage
-  if (player.health < lastPlayerHealth) {
-    combat.onPlayerDamaged();
-    sound.playDamage();
-  }
-  lastPlayerHealth = player.health;
+  // Drain health over MAX_GAME_DURATION seconds (god mode — enemies deal no damage, time is the threat)
+  player.health -= dt * HEALTH_DRAIN_RATE;
 
   gameState.update(dt);
 
+  // Win: all pods nuked (and at least one was killed so we don't trigger on first frame)
+  if (player.kills > 0 && world.entities.every(e => !e.alive)) {
+    // Time bonus: +100 points per remaining second (rounded)
+    const remainingSeconds = Math.round(Math.max(0, MAX_GAME_DURATION - gameState.elapsedTime));
+    player.score += remainingSeconds * 100;
+    gameState.transitionTo('won');
+  }
+
+  // Lose: time ran out
   if (player.health <= 0) {
     gameState.transitionTo('gameover');
   }
@@ -134,6 +137,10 @@ function render(_interpolation: number): void {
 
     case 'gameover':
       menu.renderGameOver(ctx, player, gameState.elapsedTime);
+      break;
+
+    case 'won':
+      menu.renderWin(ctx, player, gameState.elapsedTime);
       break;
   }
 }
