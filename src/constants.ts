@@ -19,7 +19,7 @@ export const PLAYER_MAX_HEALTH = 100;          // always starts full at 100%
 export const HEALTH_DRAIN_RATE = PLAYER_MAX_HEALTH / MAX_GAME_DURATION; // HP/s so health hits 0 at MAX_GAME_DURATION
 
 // Enemies
-export const ENEMY_SPEED = -0.5;
+export const ENEMY_SPEED = -0.2;
 export const ENEMY_HEALTH = 10;
 export const ENEMY_ATTACK_RANGE = 1.0;
 export const ENEMY_SIGHT_RANGE = 8.0;
@@ -30,8 +30,8 @@ export const MAX_ENEMIES = 100;
 // Combat
 export const WEAPON_DAMAGE = 25;
 export const WEAPON_RANGE = 10.0;
-export const WEAPON_COOLDOWN = 500;
-export const MAX_AMMO = 10000;
+export const WEAPON_COOLDOWN = 100;
+export const MAX_AMMO = 100000;
 export const STARTING_AMMO = MAX_AMMO;
 
 // Game loop

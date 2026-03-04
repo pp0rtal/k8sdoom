@@ -44,6 +44,8 @@ let spawnManager: SpawnManager;
 let combat: Combat;
 let weapon: Weapon;
 let showMinimap = true;
+let endScreenTime = -Infinity; // timestamp (ms) when gameover/won screen appeared
+const END_SCREEN_CLICK_DELAY = 2000; // ms to ignore clicks after game ends
 
 function startGame(): void {
   world = new World();
@@ -57,6 +59,9 @@ function startGame(): void {
 }
 
 canvas.addEventListener('click', () => {
+  if (gameState.phase === 'gameover' || gameState.phase === 'won') {
+    if (Date.now() - endScreenTime < END_SCREEN_CLICK_DELAY) return; // protect against stray clicks
+  }
   if (gameState.phase === 'menu' || gameState.phase === 'gameover' || gameState.phase === 'won') {
     startGame();
   }
@@ -106,11 +111,13 @@ function update(dt: number): void {
     // Time bonus: +100 points per remaining second (rounded)
     const remainingSeconds = Math.round(Math.max(0, MAX_GAME_DURATION - gameState.elapsedTime));
     player.score += remainingSeconds * 100;
+    endScreenTime = Date.now();
     gameState.transitionTo('won');
   }
 
   // Lose: time ran out
   if (player.health <= 0) {
+    endScreenTime = Date.now();
     gameState.transitionTo('gameover');
   }
 }

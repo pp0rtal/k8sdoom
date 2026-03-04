@@ -28,10 +28,10 @@ export class MenuScreen {
     const lineSpacing = 25;
     ctx.fillStyle = '#aaa';
     ctx.font = '16px monospace';
-    ctx.fillText('You are kube control plane (god itself)', SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4 + 15 +  + lineSpacing * 1);
+    ctx.fillText('You are kube control plane', SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4 + 15 +  + lineSpacing * 1);
     ctx.fillText('You need to Terminate the CronJobs to downscale', SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4 + 15 +  + lineSpacing * 2);
-    ctx.fillText('Money flies away 💸 you have no more than ' + MAX_GAME_DURATION + ' to clear things up', SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4 + 15 +  + lineSpacing * 3);
-    ctx.fillText('🔥 GOD MODE ACTIVATED 🔥 - NO MERCY', SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4 + 15 +  + lineSpacing * 4);
+    ctx.fillText('Money flies away 💸 you have no more than ' + MAX_GAME_DURATION + 's to clear things up', SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4 + 15 +  + lineSpacing * 3);
+    ctx.fillText('🔥 NO MERCY, GOD MODE ACTIVATED 🔥', SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4 + 15 +  + lineSpacing * 4);
 
     // K8s wheel
     this.drawK8sWheel(ctx, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 30, 45);

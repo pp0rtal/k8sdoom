@@ -44,7 +44,7 @@ export class Enemy {
     if (this.health <= 0) {
       this.alive = false;
       this.state = 'dead';
-      this.deathTimer = 2.0;
+      this.deathTimer = 0; // instant disappear
       return true;
     }
     return false;
